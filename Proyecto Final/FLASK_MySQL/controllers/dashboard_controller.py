@@ -1,7 +1,7 @@
 from models.login_model import CuentaUsuario
 from models.course_model import Curso  # adapta al nombre de tu modelo
 from datetime import datetime
-
+# Esta función obtiene la información del dashboard
 def obtener_dashboard_info(nombre, rol):
     total_usuarios = CuentaUsuario.query.count()
     total_cursos = Curso.query.count()

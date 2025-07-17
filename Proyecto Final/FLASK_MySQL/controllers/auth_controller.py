@@ -1,8 +1,10 @@
+#Extensiones e importaciones necesarias
 from flask import render_template, request, session, redirect, url_for, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from extensions import db
 from models.login_model import CuentaUsuario
 
+#Esta función maneja el inicio de sesión de los usuarios
 def login():
     if request.method == 'POST':
         username = request.form['username']
@@ -21,12 +23,12 @@ def login():
             return redirect(url_for('auth.login_view'))
 
     return render_template("login.html")
-
+# Esta función maneja el cierre de sesión de los usuarios
 def logout():
     session.clear()
     flash("✅ Sesión cerrada correctamente", "info")
     return redirect(url_for('auth.login_view'))
-
+# Esta función maneja el registro de nuevos usuarios
 def register():
     if request.method == 'POST':
         username = request.form['username']

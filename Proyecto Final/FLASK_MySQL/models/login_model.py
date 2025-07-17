@@ -1,6 +1,6 @@
 from extensions import db
 from datetime import datetime
-
+# Esta clase representa el modelo de CuentaUsuario en la base de datos
 class CuentaUsuario(db.Model):
     __tablename__ = 'cuenta_usuario'
     id = db.Column(db.Integer, primary_key=True)

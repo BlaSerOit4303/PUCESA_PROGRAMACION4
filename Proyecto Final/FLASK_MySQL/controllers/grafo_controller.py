@@ -4,7 +4,7 @@ from models.ruta_model import Ruta
 from extensions import db
 import random
 from utils.grafos.grafo_logica import generar_ruta_grafico
-
+# Esta función muestra el panel de control de grafos
 def mostrar_panel_grafos():
     ciudades = Ciudad.query.order_by(Ciudad.nombre).all()
     rutas = Ruta.query.all()
@@ -16,13 +16,7 @@ def mostrar_panel_grafos():
         costo=None,
         random=random.randint(1, 1000000)
     )
-
-import random
-from flask import render_template, request, redirect, url_for, flash
-from models.ciudad_model import Ciudad
-from models.ruta_model import Ruta
-from utils.grafos.grafo_logica import generar_ruta_grafico
-
+# Esta función calcula la ruta entre dos ciudades
 def calcular_ruta():
     # 1) Leer IDs y convertir a nombres
     origen_id  = int(request.form.get('origen'))
@@ -63,7 +57,7 @@ def calcular_ruta():
         random        = random.randint(1, 1000000)
     )
 
-    
+# Esta función agrega una nueva ruta entre dos ciudades 
 def agregar_ruta():
     origen_id = int(request.form.get('origen'))
     destino_id = int(request.form.get('destino'))
@@ -78,11 +72,11 @@ def agregar_ruta():
     db.session.commit()
     flash("✅ Ruta agregada correctamente", "success")
     return redirect(url_for('grafos.grafos'))
-
+# Esta función maneja la edición de una ciudad específica
 def editar_ciudad_controller(id):
     ciudad = Ciudad.query.get_or_404(id)
     return render_template("editar_ciudad.html", ciudad=ciudad)
-
+# Esta función actualiza los datos de una ciudad
 def actualizar_ciudad_controller(id):
     ciudad = Ciudad.query.get_or_404(id)
     ciudad.nombre = request.form.get('nombre')

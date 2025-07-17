@@ -7,9 +7,10 @@ from controllers.user_controller import (
     actualizar_usuario,
 )
 from models.login_model import CuentaUsuario
-
+# Importa la clase Blueprint para crear un blueprint de usuarios
+# Este blueprint maneja las rutas relacionadas con los usuarios
 user_bp = Blueprint("usuarios", __name__)
-
+# Ruta para listar todos los usuarios
 @user_bp.route('/usuarios/')
 def listar_usuarios():
     if 'usuario_id' not in session:
@@ -20,7 +21,7 @@ def listar_usuarios():
         return redirect(url_for('main.index'))  # redirige a inicio si no es admin
 
     return obtener_usuarios()
-
+# Ruta para crear un nuevo usuario
 @user_bp.route('/usuarios/crear', methods=['POST'])
 def crear_usuario():
     if session.get('usuario_rol') != 'admin':
@@ -45,21 +46,21 @@ def crear_usuario():
     db.session.commit()
     flash("Usuario creado correctamente", "success")
     return redirect(url_for('usuarios.listar_usuarios'))
+# Ruta para editar un usuario
 @user_bp.route('/usuarios/editar/<int:id>')
 def editar_usuario_route(id):
     if session.get('usuario_rol') != 'admin':
         flash("Acceso denegado", "danger")
         return redirect(url_for('main.index'))
     return editar_usuario(id)
-
+# Ruta para actualizar un usuario
 @user_bp.route('/usuarios/actualizar/<int:id>', methods=['POST'])
 def actualizar_usuario_route(id):
     if session.get('usuario_rol') != 'admin':
         flash("Acceso denegado", "danger")
         return redirect(url_for('main.index'))
     return actualizar_usuario(id)
-
-
+# Ruta para eliminar un usuario
 @user_bp.route('/usuarios/eliminar/<int:id>', methods=['POST'])
 def eliminar_usuario(id):
     if session.get('usuario_rol') != 'admin':

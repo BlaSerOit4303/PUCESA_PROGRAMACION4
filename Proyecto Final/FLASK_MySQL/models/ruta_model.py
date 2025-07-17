@@ -1,6 +1,6 @@
 from extensions import db
 from models.ciudad_model import Ciudad
-
+# Esta clase representa el modelo de Ruta en la base de datos
 class Ruta(db.Model):
     __tablename__ = 'rutas'
     id = db.Column(db.Integer, primary_key=True)

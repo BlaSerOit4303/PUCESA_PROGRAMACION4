@@ -15,4 +15,6 @@ class Config:
     
     # Desactiva el rastreo de modificaciones de objetos (recomendado para rendimiento)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    # Define una clave secreta para la aplicación (usada para sesiones, CSRF, etc.)
+    # Esta clave debe ser única y secreta para cada aplicación
     SECRET_KEY = os.getenv('SECRET_KEY')

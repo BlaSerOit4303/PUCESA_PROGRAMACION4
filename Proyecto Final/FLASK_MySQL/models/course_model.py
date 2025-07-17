@@ -1,7 +1,5 @@
-# models/course_model.py
-
 from extensions import db
-
+# Esta clase representa el modelo de Curso en la base de datos
 class Curso(db.Model):
     __tablename__ = 'curso'
     id = db.Column(db.Integer, primary_key=True)

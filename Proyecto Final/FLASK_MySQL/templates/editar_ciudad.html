@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Formulario para editar una ciudad -->
+{% block header %}Editar Ciudad{% endblock %}
+<div class="container mt-4">
+  <h4>✏️ Editar Ciudad</h4>
+  <form method="POST" action="{{ url_for('ciudades.editar_ciudad', id=ciudad.id) }}">
+    <div class="form-group">
+      <label for="nombre">Nombre de la ciudad</label>
+      <input type="text" name="nombre" id="nombre" class="form-control" value="{{ ciudad.nombre }}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+    <a href="{{ url_for('grafos.grafos') }}" class="btn btn-secondary">Cancelar</a>
+  </form>
+</div>
+{% endblock %}
