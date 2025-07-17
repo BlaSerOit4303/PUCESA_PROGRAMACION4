@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Iniciar sesión</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- AdminLTE -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
+
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .login-box {
+      animation: fadeInDown 0.7s ease;
+    }
+
+    .login-card {
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+    }
+
+    .login-card .card-header {
+      background: #007bff;
+      color: white;
+    }
+
+    .login-card .btn-primary {
+      transition: transform 0.2s ease;
+    }
+
+    .login-card .btn-primary:hover {
+      transform: scale(1.03);
+    }
+
+    .input-group-text {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .welcome-text {
+      animation: bounceIn 1s ease;
+      font-size: 1.3rem;
+      text-align: center;
+      margin-bottom: 15px;
+      color: #007bff;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body class="hold-transition login-page">
+  <div class="login-box animate__animated animate__fadeInDown">
+    <div class="card login-card">
+      <div class="card-header text-center">
+        <h1 class="animate__animated animate__pulse animate__infinite">🔐 Acceso Seguro</h1>
+      </div>
+      <div class="card-body">
+        <div class="welcome-text">
+          <i class="fas fa-user-shield"></i> Bienvenido al sistema
+        </div>
+        <form method="POST" autocomplete="off">
+          <div class="input-group mb-3">
+            <input name="username" type="text" class="form-control" placeholder="Usuario" required>
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <i class="fas fa-user"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="input-group mb-3">
+            <input name="password" type="password" class="form-control" placeholder="Contraseña" required>
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <i class="fas fa-lock"></i>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block animate__animated animate__jello">Ingresar</button>
+        <div class="text-center mt-3">
+            <a href="{{ url_for('auth.register_view') }}">¿No tienes cuenta? Regístrate aquí</a>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS de AdminLTE -->
+  <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
+
+  <!-- JS dinámico para toques visuales -->
+  <script>
+    // Efecto al cargar
+    window.onload = function() {
+      document.querySelector('.login-card').classList.add('animate__animated', 'animate__zoomIn');
+    };
+  </script>
+</body>
+</html>

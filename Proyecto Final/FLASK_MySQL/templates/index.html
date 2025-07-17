@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Panel de Inicio{% endblock %}
+{% block header %}Bienvenido{% endblock %}
+{% block content %}
+<div class="container-fluid">
+  <!-- Saludo personalizado -->
+  <div class="alert alert-primary">
+    <h4><i class="fas fa-user"></i> ¡Hola {{ session['usuario_nombre'] }}!</h4>
+    <p>Tu rol actual: <strong>{{ session['usuario_rol'] }}</strong></p>
+  </div>
+
+  <!-- Tarjetas resumen -->
+  <div class="row">
+    {% if session['usuario_rol'] == 'admin' %}
+      <div class="col-lg-4 col-6">
+        <div class="small-box bg-info">
+          <div class="inner">
+            <h3>🛠️</h3>
+            <p>Gestión de Usuarios</p>
+          </div>
+          <div class="icon">
+            <i class="fas fa-users-cog"></i>
+          </div>
+          <a href="{{ url_for('usuarios.listar_usuarios') }}" class="small-box-footer">
+            Ir a panel <i class="fas fa-arrow-circle-right"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-6">
+        <div class="small-box bg-success">
+          <div class="inner">
+            <h3>📚</h3>
+            <p>Gestión de Cursos</p>
+          </div>
+          <div class="icon">
+            <i class="fas fa-book"></i>
+          </div>
+          <a href="{{ url_for('cursos.cursos') }}" class="small-box-footer">
+            Ir a cursos <i class="fas fa-arrow-circle-right"></i>
+          </a>
+        </div>
+      </div>
+    {% endif %}
+
+    <!-- Panel de Grafos disponible para todos -->
+    <div class="col-lg-4 col-6">
+      <div class="small-box bg-warning">
+        <div class="inner">
+          <h3>📈</h3>
+          <p>Panel de Grafos</p>
+        </div>
+        <div class="icon">
+          <i class="fas fa-project-diagram"></i>
+        </div>
+        <a href="{{ url_for('grafos.grafos') }}" class="small-box-footer">
+          Explorar grafos <i class="fas fa-arrow-circle-right"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mensaje final -->
+  <div class="card">
+    <div class="card-body">
+      <p>
+        Este panel te da acceso según tu rol. Si eres administrador, puedes gestionar usuarios, cursos y visualizar estructuras. Si eres usuario normal, podrás interactuar con el panel de grafos en futuras actualizaciones 🧠.
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

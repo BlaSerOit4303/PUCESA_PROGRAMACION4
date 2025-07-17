@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  .split-layout {
+    display: flex;
+    gap: 10px;
+    height: calc(100vh - 80px); /* ajusta según tu header */
+  }
+
+  .left-panel, .right-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .card {
+    border-radius: 6px;
+    box-shadow: 0 0 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-body {
+    padding: 10px;
+    flex: 1;
+    box-sizing: border-box;
+  }
+
+  /* solo los paneles con tablas necesitan scroll */
+  .panel-scroll .card-body {
+    overflow-y: auto;
+  }
+
+  .panel-calc {
+  
+  flex: 0 0 auto;
+  max-height: 250px;    
+  overflow-y: auto;     
+}
+
+  .panel-graph {
+    flex: 1;
+  }
+
+  .panel-graph .card-body {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    box-sizing: border-box;
+  }
+
+  .panel-graph img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 6px;
+    box-shadow: 0 0 6px rgba(0,0,0,0.1);
+  }
+
+  .table-sm { font-size: 0.8rem; }
+  .table-sm th, .table-sm td { padding: 0.3rem; }
+  .form-inline .form-control-sm { height: 1.8rem; font-size: 0.78rem; }
+  .btn-sm { font-size: 0.72rem; padding: 0.25rem 0.5rem; }
+
+  /* efecto visual al pasar el mouse por la imagen */
+  .panel-graph img:hover {
+    transform: scale(1.02);
+    transition: transform 0.2s ease-in-out;
+  }
+</style>
+
+<div class="split-layout">
+  <!-- 🟦 IZQUIERDA: Ciudades + Rutas -->
+  <div class="left-panel">
+    <!-- Ciudades -->
+    <div class="card border-primary panel-scroll">
+      <div class="card-header bg-primary text-white">🌆 Ciudades Registradas</div>
+      <div class="card-body">
+        <form method="POST" action="{{ url_for('grafos.agregar_ciudad') }}" class="form-inline mb-2">
+          <input type="text" name="nombre" class="form-control form-control-sm mr-2" placeholder="Nueva ciudad" required>
+          <button type="submit" class="btn btn-sm btn-primary">Agregar</button>
+        </form>
+        <table class="table table-bordered table-sm">
+          <thead>
+            <tr><th>ID</th><th>Nombre</th><th>Acciones</th></tr>
+          </thead>
+          <tbody>
+            {% for c in ciudades %}
+            <tr>
+              <td>{{ c.id }}</td>
+              <td>{{ c.nombre }}</td>
+              <td>
+                <a href="{{ url_for('grafos.editar_ciudad', id=c.id) }}" class="btn btn-sm btn-success">✎</a>
+                <form method="POST" action="{{ url_for('grafos.eliminar_ciudad', id=c.id) }}"
+                      style="display:inline;" onsubmit="return confirm('¿Eliminar ciudad?');">
+                  <button type="submit" class="btn btn-sm btn-danger">🗑</button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Rutas -->
+    <div class="card border-primary panel-scroll">
+      <div class="card-header bg-success text-white">🛣️ Rutas Existentes</div>
+      <div class="card-body">
+        <form method="POST" action="{{ url_for('grafos.agregar_ruta_route') }}" class="form-inline mb-2">
+        </form>
+        <table class="table table-bordered table-sm mb-0">
+          <thead>
+            <tr><th>Origen</th><th>Destino</th><th>Costo</th></tr>
+          </thead>
+          <tbody>
+            {% for r in rutas %}
+            <tr>
+              <td>{{ r.origen.nombre }}</td>
+              <td>{{ r.destino.nombre }}</td>
+              <td>{{ r.costo }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🟨 DERECHA: Calcular + Imagen -->
+  <div class="right-panel">
+    <!-- Calcular ruta -->
+<!-- PANEL DE CÁLCULO -->
+<div class="card border-warning panel-calc">
+  <div class="card-header bg-warning text-dark">📍 Calcular Ruta Óptima</div>
+  <div class="card-body">
+    <!-- tu form aquí -->
+    <form method="POST" action="{{ url_for('grafos.calcular_ruta_route') }}" class="form-inline">
+      <select name="origen"   class="form-control form-control-sm mr-1" required>
+        {% for c in ciudades %}<option value="{{c.id}}">{{c.nombre}}</option>{% endfor %}
+      </select>
+      <select name="destino"  class="form-control form-control-sm mr-1" required>
+        {% for c in ciudades %}<option value="{{c.id}}">{{c.nombre}}</option>{% endfor %}
+      </select>
+      <div class="form-check form-check-inline mr-2">
+        <input class="form-check-input" type="checkbox" id="costa" name="costa" value="1">
+        <label class="form-check-label small" for="costa">Forzar costa</label>
+      </div>
+      <button type="submit" class="btn btn-sm btn-warning">Calcular</button>
+    </form>
+
+    <!-- Mensaje de error o éxito -->
+    {% if resultado %}
+      <div class="alert alert-info mt-2 p-1 small">{{ resultado }}</div>
+    {% endif %}
+
+    <!-- Ruta y costo: mostramos si vienen definidos -->
+    {% if ruta is not none and costo is not none %}
+      <div class="mt-2 small">
+        <strong>Ruta tomada:</strong>
+        {{ ruta | join(' → ') }}<br>
+        <strong>Costo total:</strong> {{ costo }}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+    <!-- Imagen del grafo -->
+    <div class="card border-dark panel-graph">
+      <div class="card-header bg-dark text-white">📈 Visualización de la Ruta</div>
+      <div class="card-body">
+        {% if imagen_grafo %}
+          <img src="{{ url_for('static', filename=imagen_grafo) }}?v={{ random }}">
+        {% elif resultado %}
+          <div class="alert alert-warning text-center w-100">{{ resultado }}</div>
+        {% else %}
+          <small class="text-muted">Aquí aparecerá el grafo</small>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

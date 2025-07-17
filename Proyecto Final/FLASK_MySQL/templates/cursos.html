@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Cursos{% endblock %}
+{% block header %}Listado de Cursos{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    {% for curso in cursos %}
+    <div class="col-md-4">
+      <div class="card card-outline card-primary shadow-sm">
+        <div class="card-header">
+          <h5 class="card-title"><i class="fas fa-book"></i> {{ curso.nombre }}</h5>
+        </div>
+        <div class="card-body">
+          <p><strong>Descripción:</strong> {{ curso.descripcion if curso.descripcion else "Sin descripción disponible" }}</p>
+        </div>
+        {% if session['usuario_rol'] == 'admin' %}
+        <div class="card-footer text-right">
+          <a href="{{ url_for('cursos.editar', id=curso.id) }}" class="btn btn-sm btn-warning">
+            <i class="fas fa-edit"></i> Editar
+          </a>
+          <a href="{{ url_for('cursos.eliminar', id=curso.id) }}" class="btn btn-sm btn-danger">
+            <i class="fas fa-trash-alt"></i> Eliminar
+          </a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="mt-4">
+    <p class="text-muted"><i class="fas fa-calendar-alt"></i> Fecha: {{ fecha }}</p>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Editar Curso{% endblock %}
+{% block header %}Editar Curso{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="card-body">
+    <form method="POST">
+      <div class="form-group">
+        <label>Nombre del curso</label>
+        <input type="text" name="nombre" class="form-control" value="{{ curso.nombre }}" required>
+      </div>
+      <div class="form-group">
+        <label>Descripción</label>
+        <textarea name="descripcion" class="form-control" required>{{ curso.descripcion }}</textarea>
+      </div>
+      <button type="submit" class="btn btn-success">Actualizar</button>
+      <a href="{{ url_for('cursos.cursos') }}" class="btn btn-secondary">Cancelar</a>
+    </form>
+  </div>
+</div>
+{% endblock %}
